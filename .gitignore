@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# devcontainerの内容を共有しないように除外
+.devcontainer
