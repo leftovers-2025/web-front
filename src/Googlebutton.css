@@ -1,0 +1,39 @@
+.KDS-logo {
+  height: 80vmin;
+  
+  pointer-events: none;
+}
+
+
+.FaGoogle {
+  font-size: 20px;
+}
+
+.Googlebutton {
+  display: flex; /*中にある要素を横並びにする*/
+  align-items: center; /*中にある要素を中央ぞろえ*/
+  gap: 8px;            /*中にある要素の間に～ピクセルの間をあける*/
+  padding: 10px 20px;  /*ボタンの内側の余白を上下10px、左右20pxとる*/
+  background-color: #F0F2F5; /*ボタンの背景色設定*/
+  color:#101215;     /*ボタン内のテキスト設定*/
+  border: none;        /*枠線設定*/
+  border-radius: 6px;  /*ボタンの角を～px分丸くする*/
+  cursor: pointer;     /*ボタン内にカーソルがいくと指アイコンが変化する*/
+  font-size: 16px;     /*テキストサイズの設定*/
+}
+
+/* 追加：全体中央寄せ（Google-Loginのdiv） */
+.Google-Login {
+  display: flex;
+  flex-direction: column;     /* 上下に並べる */
+  align-items: center;        /* 水平方向に中央揃え */
+  justify-content: center;    /* 垂直方向に中央揃え */
+  margin-top: -100px;           /* 上に少しスペース */
+}
+
+/* 追加：説明文の色 */
+.Google-Login p {
+  color: rgb(62, 52, 165);
+  font-size: 25px;
+  margin-bottom: 12px;
+}
