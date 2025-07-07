@@ -1,12 +1,18 @@
-# React + Vite
+## KDsearch web-front
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### サーバー起動コマンド
+``web-front$ npm run dev``
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 各ディレクトリ解説
+|                     |                    |                                                                                     | 
+| :------------------ | :----------------- | :---------------------------------------------------------------------------------- | 
+| ディレクトリ        | 役割               | 説明                                                                                | 
+| components/         | コンポーネント管理 | コンポーネントは本ディレクトリ以下に記述                                            | 
+| components/auth/    | 認証・権限管理     | ユーザーのログイン状態/権限チェックを定義                                           | 
+| components/common/  | 全ページ共通パーツ | ヘッダー、フッター、ローディング等を定義                                            | 
+| components/layouts/ | ページレイアウト   | 各ページの枠組み、pagesやcommonの配置を定義                                         | 
+| components/pages/   | 各ページの内容     | 実際の画面表示内容/ロジックを定義                                                   | 
+| hooks/              | 再利用ロジック     | コンポーネント内でのみ使うメソッド(現在のログイン状態チェック)でreactへの依存性あり | 
+| routes/             | ルーティング管理   | URL と ページの対応を設定                                                           | 
+| services/           | バックエンド通信   | API 呼び出し専用                                                                    | 
+| utils/              | 汎用ツール         | どこでも使えるヘルパーメソッド(APIのurlなどの定数を定義)でreactへの依存性がない     | 
