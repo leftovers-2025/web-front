@@ -1,0 +1,300 @@
+/* メインコンテナ */
+.lost-items-list {
+  min-height: 100vh;
+  background: var(--color-background);
+}
+
+/* ページヘッダー */
+.lost-items-list__header {
+  margin-bottom: var(--spacing-xl);
+}
+
+.lost-items-list__title {
+  font-size: var(--font-3xl);
+  font-weight: var(--weight-bold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-sm) 0;
+  line-height: 1.2;
+}
+
+.lost-items-list__description {
+  color: var(--color-text-secondary);
+  margin: 0;
+  font-size: var(--font-base);
+}
+
+/* デバッグ情報 */
+.lost-items-list__debug {
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--bg-warning);
+  border: 1px solid var(--bg-warning-border);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-xs);
+  color: #a16207;
+}
+
+/* コンテンツエリア */
+.lost-items-list__content {
+  /* コンテンツエリアのスタイル */
+}
+
+/* ローディング状態 */
+.lost-items-list__loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-3xl);
+  text-align: center;
+}
+
+.lost-items-list__spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #dbeafe;
+  border-top: 4px solid var(--color-primary);
+  border-radius: var(--radius-full);
+  animation: spin 1s linear infinite;
+  margin-bottom: var(--spacing-md);
+}
+
+.lost-items-list__loading-message {
+  color: var(--color-text-secondary);
+  margin: 0;
+  font-size: var(--font-base);
+}
+
+/* 空状態 */
+.lost-items-list__empty {
+  text-align: center;
+  padding: var(--spacing-2xl) 0;
+}
+
+.lost-items-list__empty-icon {
+  font-size: 4rem;
+  margin-bottom: var(--spacing-md);
+  opacity: 0.8;
+}
+
+.lost-items-list__empty-title {
+  font-size: var(--font-lg);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-sm) 0;
+}
+
+.lost-items-list__empty-description {
+  color: var(--color-text-secondary);
+  margin: 0;
+  font-size: var(--font-base);
+}
+
+/* 検索結果件数 */
+.lost-items-list__results-count {
+  margin-bottom: var(--spacing-md);
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* カードグリッド */
+.lost-items-list__cards {
+  display: grid;
+  gap: var(--spacing-lg);
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  margin-bottom: var(--spacing-xl);
+}
+
+/* 個別カード */
+.lost-items-list__card {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  position: relative;
+}
+
+.lost-items-list__card:hover {
+  transform: scale(1.02);
+  box-shadow: var(--shadow-lg);
+}
+
+.lost-items-list__card:active {
+  transform: scale(0.98);
+}
+
+/* カード画像 */
+.lost-items-list__card-image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background: var(--color-background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.lost-items-list__card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.lost-items-list__card:hover .lost-items-list__card-image img {
+  transform: scale(1.05);
+}
+
+.lost-items-list__card-image-placeholder {
+  font-size: 3rem;
+  color: var(--color-text-muted);
+  opacity: 0.6;
+}
+
+/* カードコンテンツ */
+.lost-items-list__card-content {
+  padding: var(--spacing-md);
+}
+
+.lost-items-list__card-title {
+  font-size: var(--font-lg);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-md) 0;
+  min-height: 3.5rem;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.4;
+}
+
+.lost-items-list__card-date {
+  display: flex;
+  align-items: center;
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-md);
+  gap: var(--spacing-sm);
+}
+
+.lost-items-list__card-date-icon {
+  font-size: var(--font-base);
+}
+
+.lost-items-list__card-id {
+  text-align: right;
+  margin-top: var(--spacing-md);
+  font-size: var(--font-xs);
+  color: var(--color-text-muted);
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+
+/* フローティングアクションボタン */
+.lost-items-list__floating-btn {
+  position: fixed;
+  bottom: var(--spacing-xl);
+  right: var(--spacing-xl);
+  background: var(--color-primary);
+  color: var(--color-white);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-full);
+  border: none;
+  box-shadow: var(--shadow-lg);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  width: 4rem;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-floating);
+}
+
+.lost-items-list__floating-btn:hover {
+  background: var(--color-primary-hover);
+  transform: scale(1.1);
+  box-shadow: var(--shadow-xl);
+}
+
+.lost-items-list__floating-btn:active {
+  transform: scale(1.05);
+}
+
+.lost-items-list__floating-btn svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  transition: transform var(--transition-fast);
+}
+
+.lost-items-list__floating-btn:hover svg {
+  transform: rotate(90deg);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 767px) {
+  .lost-items-list__title {
+    font-size: var(--font-2xl);
+  }
+  
+  .lost-items-list__cards {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+  
+  .lost-items-list__card-content {
+    padding: var(--spacing-sm);
+  }
+  
+  .lost-items-list__card-title {
+    font-size: var(--font-base);
+    min-height: 3rem;
+  }
+  
+  .lost-items-list__floating-btn {
+    bottom: var(--spacing-md);
+    right: var(--spacing-md);
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+  
+  .lost-items-list__floating-btn svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .lost-items-list__cards {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* フォーカスアクセシビリティ */
+.lost-items-list__card:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.lost-items-list__floating-btn:focus {
+  outline: 2px solid var(--color-white);
+  outline-offset: 2px;
+}
+
+/* アニメーション */
+.lost-items-list__card {
+  animation: slideUp 0.3s ease-out;
+}
+
+.lost-items-list__card:nth-child(odd) {
+  animation-delay: 0.1s;
+}
+
+.lost-items-list__card:nth-child(even) {
+  animation-delay: 0.2s;
+}

@@ -1,61 +1,11 @@
-/* src/index.css - TailwindCSS v4用 */
-@import "tailwindcss";
+/* ベーススタイル */
+@import './styles/variables.css';
+@import './styles/base.css';
+@import './styles/utilities.css';
 
-/* カスタムスタイル */
-@layer base {
-  body {
-    font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
-    margin: 0;
-    padding: 0;
-  }
+/* コンポーネントスタイル */
+@import './components/common/Header/Header.css';
+@import './components/common/SearchBox/SearchBox.css';
 
-  *, *::before, *::after {
-    box-sizing: border-box;
-  }
-}
-
-@layer utilities {
-  /* 複数行の文字切り捨て */
-  .line-clamp-2 {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    line-height: 1.5;
-  }
-
-  .line-clamp-3 {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    line-height: 1.5;
-  }
-
-  /* ホバー時のスケール効果 */
-  .hover\:scale-102:hover {
-    transform: scale(1.02);
-  }
-
-  .hover\:scale-105:hover {
-    transform: scale(1.05);
-  }
-
-  /* 最小高さの設定 */
-  .min-h-\[3\.5rem\] {
-    min-height: 3.5rem;
-  }
-}
-
-/* デバッグ用（開発環境でのみ表示） */
-.debug-info {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 8px 12px;
-  border-radius: 4px;
-  font-size: 12px;
-  z-index: 1000;
-}
+/* ページスタイル */
+@import './components/pages/user/LostItemsList/LostItemsList.css';
