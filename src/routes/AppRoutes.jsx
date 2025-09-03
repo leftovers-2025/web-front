@@ -2,6 +2,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import LostItemsList from '../components/pages/user/LostItemsList/LostItemsList.jsx';
+import GoogleLogin from '../components/pages/user/Login/Login.jsx';
 
 const AppRoutes = () => {
   return (
@@ -11,6 +12,7 @@ const AppRoutes = () => {
       
       {/* 落し物関連のルート */}
       <Route path="lost-items" element={<LostItemsList />} />
+      <Route path="GoogleLogin" element={<GoogleLogin />} />
       
       {/* 404エラーページ */}
       <Route path="*" element={
