@@ -1,35 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// src/App.jsx
+import React from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom'; // ★修正: useLocation をインポート★
+
+import MapSwitcher from './MapSwitcher';
+import LostItemDetailPage from './LostItemDetailPage';
+
+import './App.css';
+import './MapSwitcher.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const location = useLocation(); // ★追加: 現在のロケーションを取得★
+  const isHomePage = location.pathname === '/'; // ★追加: 現在のパスがルートパスかどうかをチェック★
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="App">
+      <header className="App-header">
+        {/* ★修正: isHomePage が true の場合のみロゴを表示★ */}
+        {isHomePage && (
+          <img
+            src="/KDS_logo.svg"
+            alt="KDS ロゴ"
+            className="kds-logo"
+          />
+        )}
+
+        <Routes>
+          <Route path="/" element={<MapSwitcher />} />
+          <Route path="/lost-item/:id" element={<LostItemDetailPage />} />
+        </Routes>
+      </header>
+    </div>
+  );
 }
 
-export default App
+export default App;
