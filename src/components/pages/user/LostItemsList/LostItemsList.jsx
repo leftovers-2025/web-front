@@ -108,7 +108,7 @@ const LostItemsList = () => {
   return (
     <div className="lost-items-list">
       {/* ヘッダー */}
-      <Header />
+      <Header role='admin'/>
 
       {/* メインコンテンツ */}
       <div className="container">

@@ -1,32 +1,19 @@
-import React from 'react';
-import './Header.css';
+import React from "react";
 
-const Header = () => {
-  return (
-    <header className="header">
-      <div className="header__content">
-        <h1 className="header__title">
-          📋 落し物掲示板
-        </h1>
-        
-        <nav className="header__nav">
-          <a href="#" className="header__nav-link header__nav-link--active">
-            落し物一覧
-          </a>
-          <a href="#" className="header__nav-link">
-            マイページ
-          </a>
-          <button 
-            className="header__register-btn"
-            onClick={() => alert('落し物登録機能は後で実装予定')}
-            title="新しい落し物を登録"
-          >
-            + 落し物を登録
-          </button>
-        </nav>
-      </div>
-    </header>
-  );
-};
+// すでに作ってある Header(components→common→pages内で各ユーザ内で管理) を import
+import AdminHeader from "../../pages/admin/header/header.jsx";
+import TeacherHeader from "../../pages/teacher/header/header.jsx";
+import UserHeader from "../../pages/user/header/header.jsx";
 
-export default Header;
+// props か Context で "role" を渡す
+export default function Header({ role }) {
+  switch (role) {
+    case "admin":
+      return <AdminHeader />;
+    case "teacher":
+      return <TeacherHeader />;
+    case "user":
+    default:
+      return <UserHeader />;
+  }
+}
