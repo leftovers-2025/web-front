@@ -4,16 +4,32 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import LostItemsList from '../components/pages/user/LostItemsList/LostItemsList.jsx';
 import GoogleLogin from '../components/pages/user/Login/Login.jsx';
 
+import MapSwitcher from '../MapSwitcher.jsx';
+// LostItemDetailPage コンポーネントをインポート
+import LostItemDetailPage from '../LostItemDetailPage.jsx';
+
+import Redirect_home from '../components/pages/user/redirect_home/redirect_home.jsx';
+
 const AppRoutes = () => {
   return (
     <Routes>
-      {/* ルート（/）から落し物一覧へリダイレクト */}
-      <Route index element={<Navigate to="/lost-items" replace />} />
+      {/* 以下の変更箇所: */}
+      {/* 最初のルート（/）でMapSwitcherを直接レンダリング */}
+      <Route path="/" element={<LostItemsList />} />
       
       {/* 落し物関連のルート */}
       <Route path="lost-items" element={<LostItemsList />} />
       <Route path="GoogleLogin" element={<GoogleLogin />} />
+      <Route path="Redirect_home" element={<Redirect_home />} />
+
       
+      {/* 落とし物の詳細ページへの新しいルートを追加 */}
+      {/* :id はURL内の動的なパラメータを表します */}
+      <Route path="lost-item/:id" element={<LostItemDetailPage />} />
+      
+      {/* MapSwitcher のルートは不要になります（上記のルートで表示するため） */}
+      {<Route path="map-switcher" element={<MapSwitcher />} />}
+
       {/* 404エラーページ */}
       <Route path="*" element={
         <div style={{ 

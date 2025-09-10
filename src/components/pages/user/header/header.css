@@ -1,0 +1,96 @@
+/* ヘッダー全体 */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f9fafb;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+
+  margin-bottom: 1.5rem;  /* ← ここを追加 */
+}
+
+/* 左側: ロゴ部分 */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-logo {
+  height: 32px;
+  width: 32px;
+}
+
+.header-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* 右側: アイコン部分 */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-icon {
+  font-size: 1.2rem;
+  color: #111827;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.header-icon:hover {
+  color: #2563eb;
+}
+
+/* ログアウトボタン */
+.logout-button {
+  padding: 0.4rem 0.8rem;
+  background-color: #111827;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.logout-button:hover {
+  background-color: #2563eb;
+}
+
+/* =========================================
+   モバイル対応 (767px以下)
+========================================= */
+@media (max-width: 767px) {
+  .header {
+    padding: 0.5rem;
+  }
+
+  /* ロゴを小さく */
+  .header-logo {
+    height: 24px;
+    width: 24px;
+  }
+
+  /* タイトル文字を非表示にして省スペース */
+  .header-title {
+    display: none;
+  }
+
+  /* アイコンサイズを小さめに */
+  .header-icon {
+    font-size: 1rem;
+    margin: 0 0.25rem;
+  }
+
+  /* Logoutボタンを小さめに */
+  .logout-button {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+  }
+}
