@@ -131,6 +131,102 @@ class ApiService {
   }
 
   // ====================
+// FormData対応メソッド（ファイルアップロード用）
+// ====================
+
+async requestWithFormData(url, options = {}) {
+  try {
+    const response = await fetch(url, options);
+
+    // 401エラーの場合は自動でトークン更新
+    if (response.status === 401) {
+      const newToken = await TokenManager.refreshAccessToken();
+      
+      if (newToken) {
+        // 新しいトークンでリトライ
+        const updatedOptions = {
+          ...options,
+          headers: {
+            ...options.headers,
+            ...TokenManager.getAuthHeaders()
+          }
+        };
+        
+        const retryResponse = await fetch(url, updatedOptions);
+        
+        if (!retryResponse.ok) {
+          throw new Error(`HTTP ${retryResponse.status}: ${retryResponse.statusText}`);
+        }
+        
+        // 204 No Contentの場合はレスポンスボディなし
+        if (retryResponse.status === 204) {
+          return { success: true };
+        }
+        
+        return await retryResponse.json();
+      }
+      return;
+    }
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+
+    // 204 No Contentの場合はレスポンスボディなし
+    if (response.status === 204) {
+      return { success: true };
+    }
+
+    return await response.json();
+    
+  } catch (error) {
+    console.error('API Request Failed:', error.message);
+    throw error;
+  }
+}
+
+async postWithFormData(endpoint, formData) {
+  const url = `${this.apiBaseURL}${endpoint}`;
+  
+  // FormDataの場合はContent-Typeヘッダーを設定しない
+  // ブラウザが自動的にmultipart/form-dataを設定する
+  const authHeaders = TokenManager.getAuthHeaders();
+  
+  // Content-Typeがある場合は削除（FormDataでは不要）
+  const headers = { ...authHeaders };
+  delete headers['Content-Type'];
+  
+  return this.requestWithFormData(url, {
+    method: 'POST',
+    headers: headers,
+    body: formData
+  });
+}
+
+// 投稿作成（ファイル対応版）
+async createPostWithFiles(postData) {
+  const formData = new FormData();
+  
+  // テキストデータの追加
+  formData.append('description', postData.description);
+  formData.append('locationId', postData.locationId);
+  formData.append('tagIds', postData.tagIds); // カンマ区切り文字列
+  
+  // ファイルデータの追加
+  if (postData.image1) {
+    formData.append('image1', postData.image1);
+  }
+  if (postData.image2) {
+    formData.append('image2', postData.image2);
+  }
+  if (postData.image3) {
+    formData.append('image3', postData.image3);
+  }
+  
+  return this.postWithFormData('/posts', formData);
+}
+
+  // ====================
   // ユーティリティメソッド
   // ====================
 

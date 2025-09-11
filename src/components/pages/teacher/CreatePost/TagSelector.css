@@ -1,0 +1,390 @@
+/* src/components/pages/teacher/CreatePost/TagSelector.css */
+
+/* オーバーレイ */
+.tag-selector-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-modal, 1000);
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* メインモーダル */
+.tag-selector {
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  width: 90vw;
+  max-width: 600px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease-out;
+}
+
+/* ヘッダー */
+.tag-selector__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.tag-selector__title {
+  font-size: var(--font-lg);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.tag-selector__close-button {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-md);
+  font-size: var(--font-lg);
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.tag-selector__close-button:hover {
+  background: var(--color-background);
+  color: var(--color-text-primary);
+}
+
+/* 検索セクション */
+.tag-selector__search-section {
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.tag-selector__search-box {
+  position: relative;
+  margin-bottom: var(--spacing-md);
+}
+
+.tag-selector__search-input {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  padding-right: 2.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-base);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.tag-selector__search-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.tag-selector__search-clear {
+  position: absolute;
+  right: var(--spacing-sm);
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.tag-selector__search-clear:hover {
+  background: var(--color-background);
+  color: var(--color-text-primary);
+}
+
+/* アクション行 */
+.tag-selector__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tag-selector__select-all-button {
+  background: none;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-md);
+  font-size: var(--font-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.tag-selector__select-all-button:hover {
+  background: var(--color-background);
+  border-color: var(--color-primary);
+}
+
+.tag-selector__count {
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+}
+
+/* コンテンツエリア */
+.tag-selector__content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-lg);
+  min-height: 200px;
+}
+
+/* 空状態 */
+.tag-selector__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-2xl);
+  text-align: center;
+}
+
+.tag-selector__empty-icon {
+  font-size: 3rem;
+  margin-bottom: var(--spacing-md);
+  opacity: 0.6;
+}
+
+.tag-selector__empty-message {
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* タググリッド */
+.tag-selector__tags {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-sm);
+}
+
+/* 個別タグ */
+.tag-selector__tag {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background: var(--color-white);
+  position: relative;
+}
+
+.tag-selector__tag:hover {
+  border-color: var(--color-primary);
+  background: #f0f9ff;
+}
+
+.tag-selector__tag--selected {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.tag-selector__checkbox {
+  margin: 0;
+  margin-right: var(--spacing-sm);
+  width: 1rem;
+  height: 1rem;
+}
+
+.tag-selector__tag-text {
+  flex: 1;
+  font-size: var(--font-sm);
+  font-weight: var(--weight-medium);
+}
+
+.tag-selector__checkmark {
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  font-size: var(--font-sm);
+  font-weight: var(--weight-bold);
+}
+
+.tag-selector__tag--selected .tag-selector__checkmark {
+  opacity: 1;
+}
+
+/* フッター */
+.tag-selector__footer {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: flex-end;
+  padding: var(--spacing-lg);
+  border-top: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.tag-selector__cancel-button {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-base);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.tag-selector__cancel-button:hover {
+  background: var(--color-background);
+  border-color: var(--color-text-secondary);
+}
+
+.tag-selector__confirm-button {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: var(--color-primary);
+  border: none;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-base);
+  font-weight: var(--weight-medium);
+  color: var(--color-white);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.tag-selector__confirm-button:hover {
+  background: var(--color-primary-hover);
+}
+
+.tag-selector__confirm-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 767px) {
+  .tag-selector {
+    width: 95vw;
+    max-height: 90vh;
+  }
+
+  .tag-selector__header,
+  .tag-selector__search-section,
+  .tag-selector__content,
+  .tag-selector__footer {
+    padding: var(--spacing-md);
+  }
+
+  .tag-selector__tags {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xs);
+  }
+
+  .tag-selector__tag {
+    padding: var(--spacing-sm);
+  }
+
+  .tag-selector__footer {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .tag-selector__cancel-button,
+  .tag-selector__confirm-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .tag-selector__actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-sm);
+  }
+}
+
+/* アニメーション */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* タグ選択時のアニメーション */
+.tag-selector__tag {
+  animation: slideIn 0.2s ease-out;
+}
+
+.tag-selector__tag:nth-child(odd) {
+  animation-delay: 0.05s;
+}
+
+.tag-selector__tag:nth-child(even) {
+  animation-delay: 0.1s;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* フォーカスアクセシビリティ */
+.tag-selector__close-button:focus,
+.tag-selector__search-input:focus,
+.tag-selector__select-all-button:focus,
+.tag-selector__tag:focus,
+.tag-selector__cancel-button:focus,
+.tag-selector__confirm-button:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* スクロールバーのスタイリング */
+.tag-selector__content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.tag-selector__content::-webkit-scrollbar-track {
+  background: var(--color-background);
+  border-radius: var(--radius-md);
+}
+
+.tag-selector__content::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.tag-selector__content::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
