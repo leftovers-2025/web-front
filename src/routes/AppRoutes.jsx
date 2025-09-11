@@ -2,6 +2,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import LostItemsList from '../components/pages/user/LostItemsList/LostItemsList.jsx';
+import CreatePostPage from '../components/pages/teacher/CreatePost/CreatePostPage.jsx';
 import GoogleLogin from '../components/pages/user/Login/Login.jsx';
 import RedirectTest from '../components/pages/user/RedirectTest/RedirectTest.jsx';
 
@@ -13,6 +14,7 @@ const AppRoutes = () => {
       
       {/* 落し物関連のルート */}
       <Route path="lost-items" element={<LostItemsList />} />
+      <Route path="create-post" element={<CreatePostPage />} />
 
       {/* OAuth関連のルート */}
       <Route path="Login" element={<GoogleLogin />} />

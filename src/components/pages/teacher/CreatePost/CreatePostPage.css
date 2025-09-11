@@ -1,0 +1,351 @@
+/* src/components/pages/teacher/CreatePost/CreatePostPage.css */
+
+/* メインコンテナ */
+.create-post-page {
+  min-height: 100vh;
+  background: var(--color-background);
+}
+
+/* ページヘッダー */
+.create-post-page__header {
+  margin-bottom: var(--spacing-xl);
+}
+
+.create-post-page__title {
+  font-size: var(--font-3xl);
+  font-weight: var(--weight-bold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-sm) 0;
+  line-height: 1.2;
+}
+
+.create-post-page__description {
+  color: var(--color-text-secondary);
+  margin: 0;
+  font-size: var(--font-base);
+}
+
+/* エラーバナー */
+.create-post-page__error-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: var(--radius-lg);
+  color: #dc2626;
+  font-size: var(--font-sm);
+}
+
+.create-post-page__error-icon {
+  font-size: var(--font-base);
+  flex-shrink: 0;
+}
+
+.create-post-page__error-close {
+  background: none;
+  border: none;
+  color: #dc2626;
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  margin-left: auto;
+  border-radius: var(--radius-md);
+  transition: background-color var(--transition-fast);
+}
+
+.create-post-page__error-close:hover {
+  background: rgba(220, 38, 38, 0.1);
+}
+
+/* フォーム */
+.create-post-page__form {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.create-post-page__field {
+  margin-bottom: var(--spacing-xl);
+}
+
+.create-post-page__label {
+  display: block;
+  font-size: var(--font-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.create-post-page__required {
+  color: #dc2626;
+  margin-left: var(--spacing-xs);
+}
+
+/* テキストエリア */
+.create-post-page__textarea-wrapper {
+  position: relative;
+}
+
+.create-post-page__textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-base);
+  font-family: inherit;
+  line-height: 1.5;
+  resize: vertical;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.create-post-page__textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.create-post-page__textarea--error {
+  border-color: #dc2626;
+}
+
+.create-post-page__textarea--error:focus {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.create-post-page__char-count {
+  position: absolute;
+  bottom: var(--spacing-sm);
+  right: var(--spacing-sm);
+  font-size: var(--font-xs);
+  color: var(--color-text-muted);
+  background: var(--color-white);
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+/* タグセクション */
+.create-post-page__tag-section {
+  /* タグセクションのスタイル */
+}
+
+.create-post-page__tag-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--spacing-md);
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-base);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.create-post-page__tag-button:hover {
+  border-color: var(--color-primary);
+}
+
+.create-post-page__tag-button:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.create-post-page__tag-button--error {
+  border-color: #dc2626;
+}
+
+.create-post-page__tag-button--error:focus {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.create-post-page__tag-button-icon {
+  font-size: var(--font-sm);
+  transition: transform var(--transition-fast);
+}
+
+.create-post-page__tag-button:hover .create-post-page__tag-button-icon {
+  transform: rotate(180deg);
+}
+
+/* 選択済みタグ */
+.create-post-page__selected-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: #f9fafb;
+  border-radius: var(--radius-lg);
+  border: 1px solid #e5e7eb;
+}
+
+.create-post-page__selected-tag {
+  background: var(--color-primary);
+  color: var(--color-white);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-full);
+  font-size: var(--font-xs);
+  font-weight: var(--weight-medium);
+}
+
+/* エラーメッセージ */
+.create-post-page__error-message {
+  margin-top: var(--spacing-sm);
+  font-size: var(--font-xs);
+  color: #dc2626;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.create-post-page__error-message::before {
+  content: '⚠️';
+  font-size: var(--font-sm);
+}
+
+/* アクションボタン */
+.create-post-page__actions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: flex-end;
+  padding-top: var(--spacing-xl);
+  border-top: 1px solid var(--color-border);
+  margin-top: var(--spacing-xl);
+}
+
+.create-post-page__cancel-button {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-base);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.create-post-page__cancel-button:hover {
+  background: #f9fafb;
+  border-color: var(--color-text-secondary);
+}
+
+.create-post-page__cancel-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.create-post-page__submit-button {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: var(--color-primary);
+  border: none;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-base);
+  font-weight: var(--weight-medium);
+  color: var(--color-white);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.create-post-page__submit-button:hover {
+  background: var(--color-primary-hover);
+}
+
+.create-post-page__submit-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.create-post-page__spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: var(--radius-full);
+  animation: spin 1s linear infinite;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 767px) {
+  .create-post-page__title {
+    font-size: var(--font-2xl);
+  }
+
+  .create-post-page__form {
+    max-width: none;
+  }
+
+  .create-post-page__field {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .create-post-page__actions {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .create-post-page__cancel-button,
+  .create-post-page__submit-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .create-post-page__selected-tags {
+    padding: var(--spacing-sm);
+  }
+
+  .create-post-page__char-count {
+    position: static;
+    margin-top: var(--spacing-sm);
+    display: inline-block;
+    background: transparent;
+    border: none;
+    padding: 0;
+  }
+
+  .create-post-page__textarea-wrapper {
+    padding-bottom: 0;
+  }
+}
+
+/* アニメーション */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* フォーカスアクセシビリティ */
+.create-post-page__tag-button:focus,
+.create-post-page__cancel-button:focus,
+.create-post-page__submit-button:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* 入力フィールドのアニメーション */
+.create-post-page__textarea,
+.create-post-page__tag-button {
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
