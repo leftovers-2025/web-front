@@ -6,6 +6,8 @@
 /* コンポーネントスタイル */
 @import './components/common/Header/Header.css';
 @import './components/common/SearchBox/SearchBox.css';
+@import './components/common/Pagination/Pagination.css';
 
 /* ページスタイル */
 @import './components/pages/user/LostItemsList/LostItemsList.css';
+@import './components/pages/user/LostItemsList/LostItemDetailModal.css';

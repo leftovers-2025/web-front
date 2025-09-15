@@ -1,67 +1,101 @@
 // src/components/pages/LostItemsList/LostItemsList.jsx
 import React, { useState, useEffect } from 'react';
-import { mockLostItems } from '../../../../utils/mockData.js';
+import apiService from '../../../../services/ApiService.js';
 import Header from '../../../common/Header/Header.jsx';
 import SearchBox from '../../../common/SearchBox/SearchBox.jsx';
+import LostItemDetailModal from './LostItemDetailModal.jsx';
+import Pagination from '../../../common/Pagination/Pagination.jsx';
 import './LostItemsList.css';
 
-// 簡単な検索・フィルタ関数
-const filterMockData = (items = mockLostItems, params = {}) => {
-  let filteredItems = [...items];
-
-  if (params.search) {
-    const searchLower = params.search.toLowerCase();
-    filteredItems = filteredItems.filter(item =>
-      item.title.toLowerCase().includes(searchLower) ||
-      item.タグ名.some(tag => tag.toLowerCase().includes(searchLower)) ||
-      item.投稿者.toLowerCase().includes(searchLower)
-    );
-  }
-
-  if (params.category) {
-    filteredItems = filteredItems.filter(item =>
-      item.タグ名.some(tag => tag.includes(params.category))
-    );
-  }
-
-  filteredItems.sort((a, b) => new Date(b.発見日時) - new Date(a.発見日時));
-  return filteredItems;
-};
-
 const LostItemsList = () => {
+  // ステート管理
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  // ページネーション関連
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [itemsPerPage] = useState(12); // 1ページあたりの表示件数
 
-  // よく使われるタグをカテゴリとして定義
-  const categories = [
-    { value: '', label: 'すべてのカテゴリ' },
-    { value: '財布', label: '財布・お金関連' },
-    { value: 'iPhone', label: 'スマートフォン' },
-    { value: '衣類', label: '衣類・服飾品' },
-    { value: '学生証', label: '身分証明書・カード' },
-    { value: '傘', label: '傘・雨具' },
-    { value: '眼鏡', label: '眼鏡・メガネ' },
-    { value: '鍵', label: '鍵・キーホルダー' },
-    { value: 'バッグ', label: 'バッグ・かばん' },
-    { value: '時計', label: '時計・アクセサリー' },
-    { value: '文房具', label: '文房具・手帳' },
-    { value: 'オーディオ', label: 'オーディオ機器' }
-  ];
+  // データ変換関数：APIレスポンス → 表示用データ
+  const transformApiData = (apiItem) => {
+    return {
+      id: apiItem.id,
+      title: apiItem.description || '詳細なし',
+      imgurl: apiItem.images && apiItem.images.length > 0 ? apiItem.images[0] : null,
+      発見日時: apiItem.createdAt,
+      タグ名: apiItem.tags ? apiItem.tags.map(tag => tag.name) : [],
+      投稿者: apiItem.userId || '不明',
+      場所: apiItem.location ? apiItem.location.name : '不明',
+      // 詳細表示用の追加情報
+      allImages: apiItem.images || [],
+      locationId: apiItem.location ? apiItem.location.id : null,
+      updatedAt: apiItem.updatedAt,
+      rawData: apiItem // 元データも保持
+    };
+  };
 
-  // データ取得をシミュレート
+  // API からデータを取得
   const fetchItems = async (params = {}) => {
     setLoading(true);
     try {
-      // ローディングをシミュレート
-      await new Promise(resolve => setTimeout(resolve, 800));
-      const filteredData = filterMockData(mockLostItems, params);
-      setItems(filteredData);
-      console.log('取得したアイテム数:', filteredData.length);
-    } catch (err) {
-      console.error('データ取得エラー:', err);
+      // APIパラメータの構築
+      const apiParams = {
+        limit: itemsPerPage,
+        page: currentPage,
+        ...params
+      };
+
+      // 検索クエリがある場合
+      if (params.search && params.search.trim()) {
+        apiParams.query = params.search.trim();
+      }
+
+      console.log('APIリクエストパラメータ:', apiParams);
+
+      // API呼び出し
+      const response = await apiService.getPosts(apiParams);
+      
+      console.log('API レスポンス:', response);
+
+      // レスポンスの構造を確認
+      if (Array.isArray(response)) {
+        // 単純な配列の場合
+        const transformedItems = response.map(transformApiData);
+        setItems(transformedItems);
+        setTotalItems(response.length);
+        setTotalPages(Math.ceil(response.length / itemsPerPage));
+      } else if (response && Array.isArray(response.items)) {
+        // ページネーション情報付きレスポンスの場合
+        const transformedItems = response.items.map(transformApiData);
+        setItems(transformedItems);
+        setTotalItems(response.total || response.items.length);
+        setTotalPages(response.totalPages || Math.ceil((response.total || response.items.length) / itemsPerPage));
+      } else if (response && Array.isArray(response.data)) {
+        // data プロパティに配列がある場合
+        const transformedItems = response.data.map(transformApiData);
+        setItems(transformedItems);
+        setTotalItems(response.total || response.data.length);
+        setTotalPages(response.totalPages || Math.ceil((response.total || response.data.length) / itemsPerPage));
+      } else {
+        console.warn('予期しないAPIレスポンス形式:', response);
+        setItems([]);
+        setTotalItems(0);
+        setTotalPages(0);
+      }
+
+    } catch (error) {
+      console.error('データ取得エラー:', error);
       setItems([]);
+      setTotalItems(0);
+      setTotalPages(0);
+      
+      // エラー通知（必要に応じてtoastライブラリなどを使用）
+      alert(`データの取得に失敗しました: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -70,39 +104,62 @@ const LostItemsList = () => {
   // 初期データ読み込み
   useEffect(() => {
     fetchItems();
-  }, []);
+  }, [currentPage]); // ページが変更されたら再取得
 
-  // 日付フォーマット
+  // 日付フォーマット関数
   const formatDate = (dateString) => {
     if (!dateString) return '';
-    return new Date(dateString).toLocaleDateString('ja-JP', {
-      year: 'numeric',
-      month: 'long', 
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+    try {
+      return new Date(dateString).toLocaleDateString('ja-JP', {
+        year: 'numeric',
+        month: 'long', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    } catch (error) {
+      console.warn('日付フォーマットエラー:', error);
+      return dateString;
+    }
   };
 
   // 検索処理
   const handleSearch = () => {
+    setCurrentPage(1); // 検索時は1ページ目に戻る
     fetchItems({ 
-      search: searchQuery,
-      category: selectedCategory || undefined 
+      search: searchQuery
     });
   };
 
-  // アイテムクリック処理
+  // アイテムクリック処理（詳細ポップアップ表示）
   const handleItemClick = (item) => {
     console.log('アイテムクリック:', item);
-    alert(`${item.title} の詳細表示（詳細ポップアップは後で実装予定）`);
+    setSelectedItem(item);
+    setIsModalOpen(true);
   };
 
-  // リセット処理
+  // ポップアップを閉じる
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedItem(null);
+  };
+
+  // 検索リセット処理
   const handleReset = () => {
     setSearchQuery('');
-    setSelectedCategory('');
+    setCurrentPage(1);
     fetchItems({});
+  };
+
+  // ページ変更処理
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+    // useEffectでcurrentPageの変更を監視して自動的にfetchItemsが呼ばれる
+  };
+
+  // 再読み込み処理
+  const handleRefresh = () => {
+    fetchItems({ search: searchQuery });
   };
 
   return (
@@ -116,20 +173,20 @@ const LostItemsList = () => {
         <div className="lost-items-list__header">
           <h1 className="lost-items-list__title">落し物一覧</h1>
           <p className="lost-items-list__description">
-            見つかった落し物の情報を確認できます（仮データで表示中）
+            見つかった落し物の情報を確認できます
           </p>
         </div>
 
-        {/* 検索ボックス */}
+        {/* 検索ボックス（カテゴリセレクトボックスを削除） */}
         <SearchBox
           searchQuery={searchQuery}
-          selectedCategory={selectedCategory}
-          categories={categories}
           onSearchQueryChange={setSearchQuery}
-          onCategoryChange={setSelectedCategory}
           onSearch={handleSearch}
           onReset={handleReset}
           loading={loading}
+          placeholder="キーワードで検索..."
+          showRefreshButton={true}
+          onRefresh={handleRefresh}
         />
 
         {/* デバッグ情報 */}
@@ -137,13 +194,15 @@ const LostItemsList = () => {
           <div className="lost-items-list__debug">
             <strong>デバッグ情報:</strong> 
             検索クエリ「{searchQuery || 'なし'}」 | 
-            カテゴリ「{selectedCategory || 'すべて'}」 | 
+            ページ {currentPage}/{totalPages} | 
+            総件数 {totalItems} | 
             読み込み状態: {loading ? 'true' : 'false'}
           </div>
         )}
 
         {/* コンテンツエリア */}
         <div className="lost-items-list__content">
+          {/* ローディング状態 */}
           {loading && (
             <div className="lost-items-list__loading">
               <div className="lost-items-list__spinner"></div>
@@ -151,6 +210,7 @@ const LostItemsList = () => {
             </div>
           )}
 
+          {/* 空状態 */}
           {!loading && items.length === 0 && (
             <div className="lost-items-list__empty">
               <div className="lost-items-list__empty-icon">📭</div>
@@ -163,14 +223,22 @@ const LostItemsList = () => {
             </div>
           )}
 
+          {/* アイテム一覧 */}
           {!loading && items.length > 0 && (
             <>
-              {/* 検索結果件数 */}
-              <div className="lost-items-list__results-count">
-                {items.length} 件の落し物が見つかりました
+              {/* 検索結果件数とページ情報 */}
+              <div className="lost-items-list__results-info">
+                <div className="lost-items-list__results-count">
+                  {totalItems} 件の落し物が見つかりました
+                  {totalPages > 1 && (
+                    <span className="lost-items-list__page-info">
+                      （ページ {currentPage}/{totalPages}）
+                    </span>
+                  )}
+                </div>
               </div>
 
-              {/* アイテム一覧 */}
+              {/* アイテムカード一覧 */}
               <div className="lost-items-list__cards">
                 {items.map((item) => (
                   <div 
@@ -181,6 +249,7 @@ const LostItemsList = () => {
                     role="button"
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
                         handleItemClick(item);
                       }
                     }}
@@ -223,6 +292,30 @@ const LostItemsList = () => {
                         <span>発見日時: {formatDate(item.発見日時)}</span>
                       </div>
 
+                      {/* 場所情報 */}
+                      {item.場所 && item.場所 !== '不明' && (
+                        <div className="lost-items-list__card-location">
+                          <span className="lost-items-list__card-location-icon">📍</span>
+                          <span>{item.場所}</span>
+                        </div>
+                      )}
+
+                      {/* タグ */}
+                      {item.タグ名 && item.タグ名.length > 0 && (
+                        <div className="lost-items-list__card-tags">
+                          {item.タグ名.slice(0, 3).map((tag, index) => (
+                            <span key={index} className="lost-items-list__card-tag">
+                              {tag}
+                            </span>
+                          ))}
+                          {item.タグ名.length > 3 && (
+                            <span className="lost-items-list__card-tag-more">
+                              +{item.タグ名.length - 3}
+                            </span>
+                          )}
+                        </div>
+                      )}
+
                       {/* アイテムID */}
                       <div className="lost-items-list__card-id">
                         #{item.id}
@@ -231,6 +324,18 @@ const LostItemsList = () => {
                   </div>
                 ))}
               </div>
+
+              {/* ページネーション */}
+              {totalPages > 1 && (
+                <div className="lost-items-list__pagination">
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                    loading={loading}
+                  />
+                </div>
+              )}
             </>
           )}
         </div>
@@ -247,6 +352,15 @@ const LostItemsList = () => {
           </svg>
         </button>
       </div>
+
+      {/* 詳細ポップアップモーダル */}
+      {selectedItem && (
+        <LostItemDetailModal
+          item={selectedItem}
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 };
