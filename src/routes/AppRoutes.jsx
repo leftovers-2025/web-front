@@ -5,20 +5,24 @@ import LostItemsList from '../components/pages/user/LostItemsList/LostItemsList.
 import CreatePostPage from '../components/pages/teacher/CreatePost/CreatePostPage.jsx';
 import GoogleLogin from '../components/pages/user/Login/Login.jsx';
 import RedirectTest from '../components/pages/user/RedirectTest/RedirectTest.jsx';
+import UserManagement from '../components/pages/admin/UserManagement/UserManagement.jsx';
 
 const AppRoutes = () => {
   return (
     <Routes>
       {/* ルート（/）から落し物一覧へリダイレクト */}
       <Route index element={<Navigate to="/lost-items" replace />} />
-      
+
       {/* 落し物関連のルート */}
       <Route path="lost-items" element={<LostItemsList />} />
       <Route path="create-post" element={<CreatePostPage />} />
 
       {/* OAuth関連のルート */}
-      <Route path="Login" element={<GoogleLogin />} />
+      <Route path="login" element={<GoogleLogin />} />
       <Route path="redirect_test" element={<RedirectTest />} />
+
+      {/* 管理者用ユーザー管理ルート */}
+      <Route path="users" element={<UserManagement />} />
 
       {/* 404エラーページ */}
       <Route path="*" element={
