@@ -1,4 +1,3 @@
-// src/components/pages/LostItemsList/LostItemDetailModal.jsx
 import React, { useEffect, useState } from 'react';
 import './LostItemDetailModal.css';
 
@@ -74,11 +73,6 @@ const LostItemDetailModal = ({ item, isOpen, onClose }) => {
     } else {
       setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
     }
-  };
-
-  // コンタクト処理（仮実装）
-  const handleContact = () => {
-    alert('お問い合わせ機能は後で実装予定です');
   };
 
   if (!isOpen || !item) {
@@ -273,13 +267,6 @@ const LostItemDetailModal = ({ item, isOpen, onClose }) => {
 
             {/* アクションボタン */}
             <div className="lost-item-modal__actions">
-              <button
-                className="lost-item-modal__contact-btn"
-                onClick={handleContact}
-              >
-                <span className="lost-item-modal__contact-icon">📞</span>
-                お問い合わせ
-              </button>
               <button
                 className="lost-item-modal__close-btn-secondary"
                 onClick={onClose}
