@@ -339,18 +339,6 @@ const LostItemsList = () => {
             </>
           )}
         </div>
-
-        {/* フローティングアクションボタン */}
-        <button
-          className="lost-items-list__floating-btn"
-          onClick={() => alert('落し物登録機能は後で実装予定')}
-          title="新しい落し物を登録"
-          aria-label="新しい落し物を登録"
-        >
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
-        </button>
       </div>
 
       {/* 詳細ポップアップモーダル */}

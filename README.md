@@ -1,6 +1,10 @@
 ## KDsearch web-front
 
+### 前提
+Node.jsがインストールされていること
 ### サーバー起動コマンド
+.envファイルの作成：中身は小橋に聞いてください  
+``web-front$ npm install``  
 ``web-front$ npm run dev``
 
 ### 各ディレクトリ解説
